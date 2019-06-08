@@ -9,8 +9,8 @@ class login_model extends CI_Model {
 
     function loginok($nombre_usuario, $contra) {
 
-        $this->db->where("nombre_usuario", $nombre_usuario);
-        $this->db->where("contrasena", $contra);
+        $this->db->where("Nombre_Usuario", $nombre_usuario);
+        $this->db->where("Contrasena", $contra);
 
         $query = $this->db->get('usuario');
         if ($query->num_rows() > 0) {
@@ -23,8 +23,17 @@ class login_model extends CI_Model {
 
     function add_usuario_session($query) {
         $newdata = array(
-            'nombre_usuario' => $query->nombre_usuario,
-            'pass' => $query->contrasena,
+            'id' => $query->idUsuario,
+            'nombre_usuario' => $query->Nombre_Usuario,
+            'pass' => $query->Contrasena,
+            'nombre' => $query->Nombre,
+            'apellido' => $query->Apellido,
+            'dni' => $query->DNI,
+            'direccion' => $query->Direccion,
+            'cp' => $query->CP,
+            'provincia' => $query->Provincia,
+            'correo' => $query->Correo,
+            'telefono' => $query->Telefono,
             'dentro' => TRUE
         );
         $this->session->set_userdata($newdata);

@@ -14,5 +14,22 @@ class Destacado extends CI_Model{
         $query = $this->db->get_where('categoria', array('Visible' => 1));
         return $query -> result();
     }
-    
+    function get_producto_id($id){
+        $this->db->where("idProductos",$id);
+        
+        $query=$this->db->get('productos');   
+        return $query->row();
+    }
+
+    function get_ProductoCat($cat){
+        $query = $this->db->get_where('productos', array('Categoria_idCategoria' => $cat, 'Visible' => 1));
+        return $query -> result();
+    }
+
+    public function getPaginate_producto($cat,$limit,$offset){
+		$query = $this->db->get_where('productos', array('Categoria_idCategoria' => $cat, 'Visible'=> 1),$limit,$offset);
+        
+		return $query->result();
+	}
+
 }

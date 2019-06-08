@@ -34,10 +34,77 @@
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
+		<script>
+	function submitContactForm(){
+		var reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
+		var name = $('#inputName').val();
+		var email = $('#inputEmail').val();
+		var message = $('#inputMessage').val();
+		if(name.trim() == '' ){
+			alert('Please enter your name.');
+			$('#inputName').focus();
+			return false;
+		}else if(email.trim() == '' ){
+			alert('Please enter your email.');
+			$('#inputEmail').focus();
+			return false;
+		}else if(email.trim() != '' && !reg.test(email)){
+			alert('Please enter valid email.');
+			$('#inputEmail').focus();
+			return false;
+		}else if(message.trim() == '' ){
+			alert('Please enter your message.');
+			$('#inputMessage').focus();
+			return false;
+		}else{
+			$.ajax({
+				type:'POST',
+				url:'submit_form.php',
+				data:'contactFrmSubmit=1&name='+name+'&email='+email+'&message='+message,
+				beforeSend: function () {
+					$('.submitBtn').attr("disabled","disabled");
+					$('.modal-body').css('opacity', '.5');
+				},
+				success:function(msg){
+					if(msg == 'ok'){
+						$('#inputName').val('');
+						$('#inputEmail').val('');
+						$('#inputMessage').val('');
+						$('.statusMsg').html('<span style="color:green;">Thanks for contacting us, we\'ll get back to you soon.</p>');
+					}else{
+						$('.statusMsg').html('<span style="color:red;">Some problem occurred, please try again.</span>');
+					}
+					$('.submitBtn').removeAttr("disabled");
+					$('.modal-body').css('opacity', '');
+				}
+        });
+    }
+}
+</script>
     </head>
 	<body>
 		<!-- HEADER -->
 		<header>
+		<?php
+            /* @var $ci type */
+            $ci = get_instance();
+            $ci->load->model("login_model");
+            $esta_dentro = $ci->login_model->esta_dentro();
+            ?>
+            <!-- TOP HEADER -->
+            <div id="top-header">
+                <div class="container">
+
+                    <ul class="header-links pull-right">
+                        <?php if ($esta_dentro) { ?>
+                            <li><a href="<?php echo site_url('PanelUsuario/abrePanel'); ?>"><i class="fa fa-user-o"></i><?php echo $this->session->userdata('nombre_usuario'); ?></a></li><?php } ?>
+                        <?php if (!$esta_dentro) { ?>
+                            <li><a href="<?php echo site_url('login'); ?>"></i> Iniciar sesion</a></li>
+                        <?php } else {
+                            //$ci->login_model->cerrar_sesion()
+                            ?>
+                            <li><i><a href="<?php echo site_url('login/cerrar_sesion'); ?>"></i> Cerrar sesion</a></li>
+<?php } ?>
 			<!-- TOP HEADER -->
 			<div id="top-header">
 				<div class="container">
@@ -48,7 +115,7 @@
 					</ul>
 					<ul class="header-links pull-right">
 						<li><a href="#"><i class="fa fa-dollar"></i> EUR</a></li>
-						<li><a href=<?php echo site_url('login')?>><i class="fa fa-user-o"></i> Mi Cuenta</a></li>
+						
 					</ul>
 				</div>
 			</div>
@@ -101,6 +168,7 @@
 								<!-- /Wishlist -->
 
 								<!-- Cart -->
+								<a href="<?php echo base_url('carrito'); ?>">
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-shopping-cart"></i>
@@ -109,34 +177,12 @@
 									</a>
 									<div class="cart-dropdown">
 										<div class="cart-list">
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="./img/product01.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
+										
+												
+										</div>
 
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="./img/product02.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
-										</div>
-										<div class="cart-summary">
-											<small><!-- Hacer un count --> Item(s) selected</small>
-											<h5><!-- Mostrar total --></h5>
-										</div>
 										<div class="cart-btns">
-											<a href="#">Mi Carro</a>
+										<a href="<?php echo site_url('Carrito'); ?>">Mi carro</a>
 											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
 										</div>
 									</div>
@@ -168,26 +214,14 @@
 			<!-- container -->
 			<div class="container">
 				<!-- responsive-nav -->
-				<div id="responsive-nav">
-					<!-- NAV -->
-					<ul class="main-nav nav navbar-nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Destacados</a></li>
-						<li><a href="#">Categorías</a></li>
-						<li><a href="#">CD's</a></li>
-						<li><a href="#">Vinilos / LP</a></li>
-						<li><a href="#">Merchandising</a></li>
-						
-					</ul>
-					<!-- /NAV -->
-				</div>
+			
 				<!-- /responsive-nav -->
 			</div>
 			<!-- /container -->
 		</nav>
 		<!-- /NAVIGATION -->
 			
-			<?=$cuerpo?>
+			<?= $cuerpo ?>
 			
 
 		

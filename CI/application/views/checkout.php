@@ -1,4 +1,10 @@
 
+<?php
+            /* @var $ci type */
+            $ci = get_instance();
+            $ci->load->model("login_model");
+            $esta_dentro = $ci->login_model->esta_dentro();
+            ?>
 
 		<!-- SECTION -->
 		<div class="section">
@@ -11,43 +17,39 @@
 						<!-- Billing Details -->
 						<div class="billing-details">
 							<div class="section-title">
-								<h3 class="title">Billing address</h3>
+								<h3 class="title">Dirección de envío</h3>
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="first-name" placeholder="First Name">
+								<input class="input" type="text" name="Nombre" placeholder="First Name" value="<?=$this->session->userdata("nombre");?>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="last-name" placeholder="Last Name">
+								<input class="input" type="text" name="Apellidos" placeholder="Last Name" value="<?=$this->session->userdata("apellido");?>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="email" name="email" placeholder="Email">
+								<input class="input" type="email" name="Correo" placeholder="Email" value="<?=$this->session->userdata("correo");?>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="address" placeholder="Address">
+								<input class="input" type="text" name="Direccion" placeholder="Address" value="<?=$this->session->userdata("direccion");?>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="city" placeholder="City">
+								<input class="input" type="text" name="Provincia" placeholder="City" value="<?=$this->session->userdata("provincia");?>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="country" placeholder="Country">
+								<input class="input" type="text" name="DNI" placeholder="Country" value="<?=$this->session->userdata("dni");?>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
+								<input class="input" type="text" name="CP" placeholder="ZIP Code" value="<?=$this->session->userdata("cp");?>">
 							</div>
 							<div class="form-group">
-								<input class="input" type="tel" name="tel" placeholder="Telephone">
+								<input class="input" type="tel" name="Telefono" placeholder="Telephone" value="<?=$this->session->userdata("telefono");?>">
 							</div>
 							<div class="form-group">
 								<div class="input-checkbox">
 									<input type="checkbox" id="create-account">
 									<label for="create-account">
 										<span></span>
-										Create Account?
+										¿No tienes cuenta?<a href="">Registrate</a>
 									</label>
-									<div class="caption">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-										<input class="input" type="password" name="password" placeholder="Enter Your Password">
-									</div>
 								</div>
 							</div>
 						</div>
@@ -100,34 +102,38 @@
 						</div>
 						<!-- /Order notes -->
 					</div>
-
+					
 					<!-- Order Details -->
+					
 					<div class="col-md-5 order-details">
 						<div class="section-title text-center">
 							<h3 class="title">Your Order</h3>
+						
 						</div>
+						<?php foreach ($this->cart->contents() as $producto): ?>
 						<div class="order-summary">
+						
 							<div class="order-col">
+							
 								<div><strong>PRODUCT</strong></div>
 								<div><strong>TOTAL</strong></div>
 							</div>
 							<div class="order-products">
 								<div class="order-col">
-									<div>1x Product Name Goes Here</div>
-									<div>$980.00</div>
+									<div><?=$producto["name"]?></div>
+									<div><?=$producto["price"]?></div>
+									
 								</div>
-								<div class="order-col">
-									<div>2x Product Name Goes Here</div>
-									<div>$980.00</div>
-								</div>
+							
 							</div>
+							<?php endforeach; ?>
 							<div class="order-col">
 								<div>Shiping</div>
 								<div><strong>FREE</strong></div>
 							</div>
 							<div class="order-col">
 								<div><strong>TOTAL</strong></div>
-								<div><strong class="order-total">$2940.00</strong></div>
+								<div><strong class="order-total"><?= $this->cart->total()?> €</strong></div>
 							</div>
 						</div>
 						<div class="payment-method">
@@ -169,7 +175,8 @@
 								I've read and accept the <a href="#">terms & conditions</a>
 							</label>
 						</div>
-						<a href="#" class="primary-btn order-submit">Place order</a>
+						<li><a href="<?= site_url("Checkout/checkout/".$this->session->userdata("id"))?>" class="primary-btn order-submit">Place order</a>
+						
 					</div>
 					<!-- /Order Details -->
 				</div>
@@ -179,13 +186,13 @@
 		</div>
 		<!-- /SECTION -->
 
-		<!-- jQuery Plugins -->
+		<!-- jQuery Plugins
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/slick.min.js"></script>
 		<script src="js/nouislider.min.js"></script>
 		<script src="js/jquery.zoom.min.js"></script>
-		<script src="js/main.js"></script>
+		<script src="js/main.js"></script> -->
 
 	</body>
-</html>
+
