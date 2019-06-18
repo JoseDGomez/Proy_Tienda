@@ -54,9 +54,9 @@ class register extends CI_Controller{
         ];
         $this->form_validation->set_rules($reglas);
         if ($this->form_validation->run() == FALSE) {
-            
+            $this->load->model('Provincias_model');
              $this->load->view('plantilla', [
-                "cuerpo"=>$this->load->view("login","",TRUE)
+                "cuerpo"=>$this->load->view("login",['provincias'=>$this->Provincias_model->get_provincia()],TRUE)
                 ]);
              }else{
                  $this->load->model("usuario_model");

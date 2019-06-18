@@ -16,7 +16,7 @@ class carrito_model extends CI_Model {
 
 
         $data = [
-            "Estado" => "PR",
+            "Estado" => "PP",
             "Fecha" => date('Y-m-d'),
             "Dni" => $datos_usuario->DNI,
             "Direccion" => $datos_usuario->Direccion,
@@ -48,13 +48,6 @@ class carrito_model extends CI_Model {
         }
     }
 
-    function get_pedido() {
-        $id_pedido = $this->db->query("select id from tienda_pedido where id= (select MAX(id) from tienda_pedido)")->row()->id;
-        return $this->db->query("select l.cantidad, l.precio, p.nombre "
-                . " from tienda_linea_pedido l join tienda_producto p"
-                . " on l.producto_id=p.id"
-                . " where l.pedido_id=".$id_pedido)->result();
-        
-    }
+  
 
 }

@@ -12,4 +12,16 @@ class Producto_model extends CI_Model{
         return $query -> result();
     }
 
+    
+
+    function update_Producto(){
+        foreach ($this->cart->contents() as $items){
+        $cant = (int)$items["qty"];
+        $this->db->set('Stock', 'Stock'.'-'.$cant, FALSE);
+        $this->db->where('idProductos', $items["id"]);
+        // var_dump($cant); die();
+        $this->db->update('productos');
+        
+        }
+    }
 }

@@ -33,6 +33,7 @@
 		<div class="section">
 			<!-- Button to trigger modal -->
 		<button class="btn btn-success btn-lg" data-toggle="modal" data-target="#modalForm">Cambiar datos</button>
+		<a href="<?=site_url('PanelUsuario/cambiaBaja')?>"><button class="btn btn-success btn-lg">Dar de baja</button></a>
 	
 	<!-- Modal -->
 	<div class="modal fade" id="modalForm" role="dialog">
@@ -50,43 +51,87 @@
 				<!-- Modal Body -->
 				<div class="modal-body">
 					<p class="statusMsg"></p>
-					<form role="form">
-						<div class="form-group">
-							<label for="inputName">Nombre</label>
-							<input type="text" class="form-control" id="inputName" placeholder="Introduce tu usuario" value="<?=$this->session->userdata("nombre_usuario") ?>"/>
-						</div>
-						<div class="form-group">
-							<label for="inputEmail">Email</label>
-							<input type="email" class="form-control" id="inputEmail" placeholder="Introduce tu correo" value="<?=$this->session->userdata("correo") ?>"/>
-						</div>
-						<div class="form-group">
-							<label for="password">Contraseña</label>
-							<input type="password" class="form-control" id="password" placeholder="Contraseña" value="<?=$this->session->userdata("pass") ?>"/>
-                        </div>
+					<form role="form" method="post" action="<?php echo site_url("PanelUsuario/index");?>">
                         <div class="form-group">
 							<label for="password">Dirección</label>
-							<input type="text" class="form-control" id="password" placeholder="Contraseña" value="<?=$this->session->userdata("direccion") ?>"/>
+							<input type="text" class="form-control" name="direccion" placeholder="Direccion" value="<?=$this->session->userdata("direccion") ?>"/>
                         </div>
                         <div class="form-group">
 							<label for="password">Provincia</label>
-							<input type="text" class="form-control" id="password" placeholder="Contraseña" value="<?=$this->session->userdata("provincia") ?>"/>
+							<?php echo form_dropdown('provincia', $provincias, '', 'class="form-control"');?> 
                         </div>
                         <div class="form-group">
 							<label for="tlf">Telefono</label>
-							<input type="text" class="form-control" id="tlf" placeholder="Contraseña" value="<?=$this->session->userdata("telefono") ?>"/>
+							<input type="text" class="form-control" name="tlf" placeholder="telefono" value="<?=$this->session->userdata("telefono") ?>"/>
                         </div>
-                        
+                        <div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<input type="submit" class="btn btn-default" value="Realizar cambios" />
+				</div>
 					</form>
 				</div>
 				
 				<!-- Modal Footer -->
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-					<button type="button" class="btn btn-primary submitBtn" onclick="submitContactForm()">SUBMIT</button>
-				</div>
+				
 			</div>
 		</div>
 	</div>
+
+	<div class="container">
+  <h2 class="text-center" style="margin-top: 30px;">Pedidos</h2>
+  <br><br>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title"><i class="fa fa-database" aria-hidden="true"></i> Pedidos</h3>
+    </div>
+    <div class="panel-body">
+   <div class="table-responsive">
+           <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+             <thead>
+               <tr >
+                 <th>Estado</th>
+                 <th>Direccion</th>
+                 <th>Código Postal</th>
+                 <th>DNI</th>
+                 <th class="text-center">Eliminar Pedido</th>                          
+               </tr>
+             </thead>
+             <tbody>
+			   <?php foreach ($allpedidos as $row) : ?>
+			   <?php $estado=$row->Estado ?>
+               <tr>
+                 <td><?php echo $row->Estado ?></td>
+                 <td><?php echo $row->Direccion ?></td>
+                 <td><?php echo $row->CP ?></td>
+                 <td><?php echo $row->DNI ?></td>
+				 <?php if($estado != 'A' && $estado != 'E' && $estado != 'R'){?>
+                 <td><center><a href=<?=site_url('PanelUsuario/borraPedido/'.$row->idPedido)?>><button type="button" class="btn btn-danger" data-dismiss="modal">Anular</button></a></center></td>
+				 <?php } ?>
+               </tr>
+               <?php endforeach; ?>
+             </tbody>            
+           </table>
+    </div>
+  </div>
+ </div>
+ <!-- view Modal -->
+ <div class="modal fade" id="phoneModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true" style="margin-top: -20px;">
+   <div class="modal-dialog modal-lg">
+     <div class="modal-content">
+       <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+         <h4 class="modal-title" id="myModalLabel">Phone Details</h4>
+       </div>
+       <div class="modal-body">
+        <!-- Place to print the fetched phone -->
+         <div id="phone_result"></div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       </div>
+     </div>
+   </div>
+ </div>
 				</div>
 				<!-- /row -->
 			</div>

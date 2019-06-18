@@ -10,6 +10,7 @@ class login_model extends CI_Model {
     function loginok($nombre_usuario, $contra) {
 
         $this->db->where("Nombre_Usuario", $nombre_usuario);
+        $this->db->where("Estado", "A");
         $this->db->where("Contrasena", $contra);
 
         $query = $this->db->get('usuario');
@@ -34,6 +35,8 @@ class login_model extends CI_Model {
             'provincia' => $query->Provincia,
             'correo' => $query->Correo,
             'telefono' => $query->Telefono,
+            'tipo' => $query->Tipo,
+            'tipo' => $query->Estado,
             'dentro' => TRUE
         );
         $this->session->set_userdata($newdata);

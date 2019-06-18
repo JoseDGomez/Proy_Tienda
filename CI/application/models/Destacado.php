@@ -32,4 +32,8 @@ class Destacado extends CI_Model{
 		return $query->result();
 	}
 
+    public function get_DestacadoPag($limit,$offset){
+        $query = $this->db->get_where('productos', array('Destacado' => 1, 'Visible' => 1),$limit,$offset);
+        return $query -> result();
+    }
 }

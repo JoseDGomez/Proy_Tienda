@@ -14,12 +14,15 @@
                                 <?php echo form_error('nombre_usuario_inicio'); ?>
                             </div>
                             <div class="form-group">
-                                <input class="input" type="text" name="pass_inicio" placeholder="Contraseña" value="<?= set_value("pass_inicio") ?>">
+                                <input class="input" type="password" name="pass_inicio" placeholder="Contraseña" value="<?= set_value("pass_inicio") ?>">
                                 <?php echo form_error('pass_inicio'); ?>
                             </div>
                             
                             <div class="form-group">
                                 <button class="input" type="submit" >Iniciar sesion</button>
+                            </div>
+                            <div class="form-group">
+                                <a href="<?=site_url('PanelUsuario/cambiaEnviaEmail')?>">¿Olvidaste tu contraseña?</a>
                             </div>
                             </form>    
                         </div>

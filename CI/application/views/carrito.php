@@ -17,8 +17,8 @@
                             <tr class="cart_menu">
                                 <td class="image">Item</td>
                                 <td class="description"></td>
-                                <td class="price">Price</td>
-                                <td class="quantity">Quantity</td>
+                                <td class="price">Precio</td>
+                                <td class="quantity">Cantidad</td>
                                 <td></td>
                             </tr>
                         </thead>
@@ -63,12 +63,13 @@
                     <h2><b>Total:</b><?= $this->cart->total()?> €</h2>
                     
                 </div>
+                <?php if($this->cart->contents() != null){ ?>
                 <?php if ($esta_dentro) { ?>
                     <a href="<?= site_url("Checkout/cambiaCheck/")?>"><button type="button" class="btn btn-primary btn-lg btn-block" style="background-color:#0080FF;">Proceder al pedido</button></a>
                         <?php } if (!$esta_dentro) { ?>
                             <li><a href="<?php echo site_url('login'); ?>"><button type="button" class="btn btn-primary btn-lg btn-block" style="background-color:#0080FF;">Registrate o inicia sesión para continuar</button></a></li>
                         <?php }?>
-               
+                    <?php }?>
             </div>
         </div> <!--/#cart_items-->
 

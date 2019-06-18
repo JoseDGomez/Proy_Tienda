@@ -95,3 +95,4 @@
 		</div>
 		<!-- /SECTION -->
 
+		<?=$this->pagination->create_links()?>

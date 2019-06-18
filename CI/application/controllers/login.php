@@ -48,7 +48,7 @@ class login extends CI_Controller {
 
                 redirect('Inicio');
             } else {
-                echo "falso";
+                redirect('login');
             }
         }
     }

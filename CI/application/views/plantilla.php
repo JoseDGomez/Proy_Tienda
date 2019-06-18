@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta dir="viewport" content="width=device-width, initial-scale=1">
 		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
 		<title>Electro - HTML Ecommerce Template</title>
@@ -34,53 +34,7 @@
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-		<script>
-	function submitContactForm(){
-		var reg = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
-		var name = $('#inputName').val();
-		var email = $('#inputEmail').val();
-		var message = $('#inputMessage').val();
-		if(name.trim() == '' ){
-			alert('Please enter your name.');
-			$('#inputName').focus();
-			return false;
-		}else if(email.trim() == '' ){
-			alert('Please enter your email.');
-			$('#inputEmail').focus();
-			return false;
-		}else if(email.trim() != '' && !reg.test(email)){
-			alert('Please enter valid email.');
-			$('#inputEmail').focus();
-			return false;
-		}else if(message.trim() == '' ){
-			alert('Please enter your message.');
-			$('#inputMessage').focus();
-			return false;
-		}else{
-			$.ajax({
-				type:'POST',
-				url:'submit_form.php',
-				data:'contactFrmSubmit=1&name='+name+'&email='+email+'&message='+message,
-				beforeSend: function () {
-					$('.submitBtn').attr("disabled","disabled");
-					$('.modal-body').css('opacity', '.5');
-				},
-				success:function(msg){
-					if(msg == 'ok'){
-						$('#inputName').val('');
-						$('#inputEmail').val('');
-						$('#inputMessage').val('');
-						$('.statusMsg').html('<span style="color:green;">Thanks for contacting us, we\'ll get back to you soon.</p>');
-					}else{
-						$('.statusMsg').html('<span style="color:red;">Some problem occurred, please try again.</span>');
-					}
-					$('.submitBtn').removeAttr("disabled");
-					$('.modal-body').css('opacity', '');
-				}
-        });
-    }
-}
-</script>
+
     </head>
 	<body>
 		<!-- HEADER -->
@@ -97,20 +51,23 @@
 
                     <ul class="header-links pull-right">
                         <?php if ($esta_dentro) { ?>
-                            <li><a href="<?php echo site_url('PanelUsuario/abrePanel'); ?>"><i class="fa fa-user-o"></i><?php echo $this->session->userdata('nombre_usuario'); ?></a></li><?php } ?>
+                            <li><a href="<?php echo site_url('PanelUsuario'); ?>"><i class="fa fa-user-o"></i><?php echo $this->session->userdata('nombre_usuario'); ?></a></li><?php } ?>
                         <?php if (!$esta_dentro) { ?>
                             <li><a href="<?php echo site_url('login'); ?>"></i> Iniciar sesion</a></li>
                         <?php } else {
                             //$ci->login_model->cerrar_sesion()
                             ?>
                             <li><i><a href="<?php echo site_url('login/cerrar_sesion'); ?>"></i> Cerrar sesion</a></li>
+						<?php if($this->session->userdata('tipo')=="Admin"){?>	
+							<li><i><a href="<?php echo site_url('Grocery'); ?>"></i>Administracion</a></li>
+			<?php } ?>		
 <?php } ?>
 			<!-- TOP HEADER -->
 			<div id="top-header">
 				<div class="container">
 					<ul class="header-links pull-left">
 						<li><a href="#"><i class="fa fa-phone"></i> +34-666-666-666</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> prov@prov.com</a></li>
 						<li><a href="#"><i class="fa fa-map-marker"></i> Calle Falsa 123</a></li>
 					</ul>
 					<ul class="header-links pull-right">
@@ -130,8 +87,8 @@
 						<!-- LOGO -->
 						<div class="col-md-3">
 							<div class="header-logo">
-								<a href="#" class="logo">
-									<img src="./img/logo.png" alt="">
+								<a href="<?php echo site_url('Inicio'); ?>" class="logo">
+									<img src="<?=base_url('img/logo.png')?>" alt="">
 								</a>
 							</div>
 						</div>
@@ -157,23 +114,13 @@
 						<!-- ACCOUNT -->
 						<div class="col-md-3 clearfix">
 							<div class="header-ctn">
-								<!-- Wishlist -->
-								<div>
-									<a href="#">
-										<i class="fa fa-heart-o"></i>
-										<span>Deseados</span>
-										<div class="qty">2</div>
-									</a>
-								</div>
-								<!-- /Wishlist -->
 
 								<!-- Cart -->
-								<a href="<?php echo base_url('carrito'); ?>">
+								<a href="<?php echo base_url('Carrito'); ?>">
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-shopping-cart"></i>
-										<span>Your Cart</span>
-										<div class="qty">3</div>
+										<span>Tu carrito</span>
 									</a>
 									<div class="cart-dropdown">
 										<div class="cart-list">
@@ -183,7 +130,6 @@
 
 										<div class="cart-btns">
 										<a href="<?php echo site_url('Carrito'); ?>">Mi carro</a>
-											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
 										</div>
 									</div>
 								</div>
@@ -241,7 +187,7 @@
 								<ul class="footer-links">
 									<li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
 									<li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
-									<li><a href="#"><i class="fa fa-envelope-o"></i>email@email.com</a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>prov@prov.com</a></li>
 								</ul>
 							</div>
 						</div>
